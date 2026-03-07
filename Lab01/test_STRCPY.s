@@ -2,7 +2,7 @@
 // CS 271 Computer Architecture - Lab 01: String Copy (STRCPY)
 // Purdue University Fort Wayne
 // =============================================================================
-// STUDENT NAME: Danylo Starepravo
+// STUDENT NAME: Danylo  Starepravo
 // DATE:         3/6/2026
 // =============================================================================
 // OBJECTIVE:
