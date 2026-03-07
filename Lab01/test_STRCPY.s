@@ -38,12 +38,12 @@ _start:
     // TODO: Load the source address (0x50) into X0
     // HINT: Use MOV with an immediate value
     
-//    MOV     X0, #0x50       // X0 = source pointer (address 80)
+    MOV     X0, #0x50       // X0 = source pointer (address 80)
     
     // TODO: Load the destination address (0x13C = 316) into X1
     // HINT: 0x13C is too large for MOV, use MOVZ or load in parts
     
-//    MOV     X1, #0x13C      // X1 = destination pointer (address 316)
+    MOV     X1, #0x13C      // X1 = destination pointer (address 316)
 
 //    MOVZ    X0, #5      
 //    MOVZ    X1, #1      
