@@ -32,85 +32,16 @@
     .global _start
 
 _start:
-    // =========================================================================
-    // STEP 1: Initialize Pointers
-    // =========================================================================
-    // TODO: Load the source address (0x50) into X0
-    // HINT: Use MOV with an immediate value
-    
-    MOV     X0, #0x50       // X0 = source pointer (address 80)
-    
-    // TODO: Load the destination address (0x13C = 316) into X1
-    // HINT: 0x13C is too large for MOV, use MOVZ or load in parts
-    
-    MOV     X1, #0x13C      // X1 = destination pointer (address 316)
+    MOVZ    X0, #5
+    MOVZ    X1, #1
+    MOVZ    X4, #0
+    MOVZ    X5, #0
 
-//    MOVZ    X0, #5      
-//    MOVZ    X1, #1      
-//    MOVZ    X4, #0      
-//    MOVZ    X5, #0      
+sum_loop:
+    ADD     X4, X4, X0
+    ADD     X5, X5, X1
+    SUBS    X0, X0, X1
+    B.NE    sum_loop
 
-    // =========================================================================
-    // STEP 2: Implement the Copy Loop
-    // =========================================================================
-copy_loop:
-    // TODO: Load a byte from the source address [X0] into W2
-    // HINT: Use LDRB (Load Register Byte)
-    
-    // YOUR CODE HERE
-
-     LDRB    W2, [X0]
-    
-    // TODO: Store the byte from W2 to the destination address [X1]
-    // HINT: Use STRB (Store Register Byte)
-    
-    // YOUR CODE HERE
-
-   STRB    W2, [X1]
-    
-    // TODO: Check if the byte we just copied was the null terminator (0)
-    // HINT: Use CBZ (Compare and Branch if Zero)
-    
-    // YOUR CODE HERE → branch to 'done' if W2 == 0
-
-    CBZ     W2, done
-    
-    // TODO: Increment both pointers to the next byte
-    // HINT: ADD X0, X0, #1 advances the source pointer
-    
-    // YOUR CODE HERE
-
-    ADD     X0, X0, #1
-    ADD     X1, X1, #1
-    
-    // TODO: Loop back to copy the next character
-    // HINT: Use B (Branch) instruction
-    
-    // YOUR CODE HERE → branch back to 'copy_loop'
-
-    B       copy_loop
-
-//sum_loop:
-//    ADD     X4, X4, X0
-//    ADD     X5, X5, X1
-//    SUBS    X0, X0, X1
-//    B.NE    sum_loop
-
-    // =========================================================================
-    // STEP 3: Signal Completion
-    // =========================================================================
 done:
-    // YIELD tells the testbench we finished successfully
     YIELD
-
-// =============================================================================
-// DATA SECTION
-// =============================================================================
-    .data
-    .org 0x50               // Place the source string at address 0x50
-source_string:
-    .asciz "Hello"          // Null-terminated string
-
-    .org 0x13C              // Reserve destination buffer at address 0x13C
-dest_buffer:
-    .space 16               // 16 bytes of space for the copied string
