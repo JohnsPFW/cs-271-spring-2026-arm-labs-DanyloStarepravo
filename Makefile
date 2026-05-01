@@ -52,7 +52,36 @@ lab01: Lab01/test_STRCPY.s
 sim_lab01: lab01 build_educore
 	@echo "[SIM] Running Lab 01 simulation..."
 	$(VVP) test_Educore.vvp +TEST_CASE=Lab01/test_STRCPY.mem
+# =============================================================================
+# Lab 04: Pipeline Hazard Analysis
+# =============================================================================
+LAB04_DIR     := Lab04/Lab4_simple_pipeline
+LAB04_HEAD    := $(LAB04_DIR)/head
+LAB04_SRC     := $(LAB04_DIR)/src
+LAB04_TESTS   := $(LAB04_DIR)/tests
 
+.PHONY: lab04 sim_lab04 build_lab04
+
+lab04: Lab04/test_lab04.s
+	@echo "[BUILD] Assembling Lab04/test_lab04.s..."
+	$(AS) $(ASFLAGS) -o Lab04/test_lab04.o Lab04/test_lab04.s
+	$(OBJCOPY) -O verilog Lab04/test_lab04.o Lab04/test_lab04.mem
+	@echo "[BUILD] Generated Lab04/test_lab04.mem"
+
+build_lab04:
+	@echo "[HW] Compiling Lab04 pipeline Verilog..."
+	$(IVERILOG) -g2012 -Wall \
+		-I $(LAB04_HEAD) \
+		-y $(LAB04_SRC) \
+		-s test_Educore \
+		$(LAB04_SRC)/*.v \
+		$(LAB04_TESTS)/*.v \
+		-o test_Educore.vvp
+	@echo "[HW] Lab04 compiled to test_Educore.vvp"
+
+sim_lab04: lab04 build_lab04
+	@echo "[SIM] Running Lab 04 simulation..."
+	$(VVP) test_Educore.vvp +TEST_CASE=Lab04/test_lab04.mem
 # =============================================================================
 # Hardware Simulation (Educore Build)
 # =============================================================================
